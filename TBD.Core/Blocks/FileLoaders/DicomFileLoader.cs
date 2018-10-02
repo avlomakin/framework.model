@@ -16,8 +16,7 @@ namespace TBD.Core
         public IDataSource GetDataSource( CDataSourceOptions options )
         {
             //(avlomakin) dummy loader for now
-
-           
+            
             List<CAtomicImage_RENAME> dummyLoad =
                 new List<CAtomicImage_RENAME>
                 {
@@ -38,5 +37,7 @@ namespace TBD.Core
         {
             throw new NotImplementedException("Dicom File loader doesn't support input setup");
         }
+
+        public String Name => "Dicom File Loader";
     }
 }

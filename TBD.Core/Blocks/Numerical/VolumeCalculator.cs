@@ -79,6 +79,6 @@ namespace TBD.Core
             _dataSource = source;
         }
 
-
+        public String Name => "Volume calculator";
     }
 }

@@ -40,10 +40,10 @@ namespace TBD.Logging
                 throw new Exception( "Log was not initalized" );
 
             String[] lines = message.Split( "\n" );
-            String dateTime = '[' + DateTime.Now.ToString( "MM/dd/yyyy hh:mm:ss.fff tt" ) + ']';
+            String dateTime = '[' + DateTime.Now.ToString( "MM/dd/yyyy HH:mm:ss.fff" ) + ']';
             String logLevelString = GetLogLevelAsString( logLevel );
             foreach (String line in lines)
-                _logWriter.WriteLine( $"{dateTime}:   {logLevelString}  {line}" );
+                _logWriter.WriteLine( $"{dateTime}:  {logLevelString}   {line}" );
             _logWriter.Flush();
         }
 

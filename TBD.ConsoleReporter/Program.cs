@@ -27,19 +27,6 @@ namespace TBD.ConsoleReporter
 
             Console.WriteLine(userFriendlyDataTableRepr);
         }
-
-
-        
-        public abstract class A
-        {
-            public static Int32 Id = 1;
-        }
-
-        public class B : A
-        {
-            public new static Int32 Id = 2;
-        }
-
     }
 
 }

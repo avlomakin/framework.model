@@ -9,5 +9,6 @@ namespace TBD.Model
         IDataSource GetDataSource(CDataSourceOptions options);
 
         void SetInput( IDataSource source );
+        String Name { get; }
     }
 }
