@@ -1,25 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using TBD.Logging;
 using TBD.Model;
 
 namespace TBD.Core
 {
-    public class VolumeCalculator : IBlock
+    /// <summary>
+    /// Dummy volume calculator 
+    /// </summary>
+    public class CImageSeriesVolumeCalculator : IBlock
     {
-
-        private readonly DataTableHeader VolumeOneHeader = new DataTableHeader(typeof(String), "Volume 1");
-        private readonly DataTableHeader VolumeTwoHeader = new DataTableHeader(typeof(String), "Volume 2");
+        private readonly DataTableHeader _volumeOneHeader = new DataTableHeader(typeof(String), "Volume 1");
+        private readonly DataTableHeader _volumeTwoHeader = new DataTableHeader(typeof(String), "Volume 2");
 
         private IDataSource _dataSource;
 
         public CDataSourceOptions GetDataSourceOptions()
         {
-            throw new NotImplementedException();
+            return new CDataSourceOptions( typeof(CAtomicPicts) );
         }
 
-        public IDataSource GetDataSource( Object options )
+        public IDataSource GetDataSource( CDataSourceOptions options )
         {
             Log.Message( "[VolumeCalculator] Initalizing volume calculation" );
             
@@ -35,26 +38,40 @@ namespace TBD.Core
 
         private IDataSource GetFromAtomicPics( CAtomicPicts pics )
         {
-            
-            CNumSeriesPropertySummary summary = new CNumSeriesPropertySummary(VolumeOneHeader, VolumeTwoHeader);
+            Log.Message( "[VolumeCalculator] Initalize summary creation" );
 
-            foreach (CSeriesInfo id in ids)
+            CNumSeriesPropertySummary summary = InitalizeSummmary();
+
+            foreach (CAtomicImageSeries series in pics.GetAs<List<CAtomicImageSeries>>())
             {
-                Double volume = GetSeriesTotalVolume( pics.GetSeriesById( id ) );
-                summary.AddPropertyForSeries( id, volume );
+                summary.AddPropertyForSeries( series.Info, GetSeriesVol1( series ) );
+                summary.AddPropertyForSeries( series.Info, GetSeriesVol2( series ) );
             }
 
             return summary;
         }
 
-        private Double GetSeriesTotalVolume( List<CAtomicImage_RENAME> images )
+        private CNumSeriesPropertySummary InitalizeSummmary()
         {
-            Double result = 0;
-            //Dummy for now
-            foreach (CAtomicImage_RENAME image in images)
-                result += image.GetPixelData().Cast<Int16>().Sum( x => x );
+            return new CNumSeriesPropertySummary( _volumeOneHeader, _volumeTwoHeader );
+        }
 
-            return result;
+        private NumProperty GetSeriesVol1( CAtomicImageSeries series )
+        {
+            Double result = series.Images.Aggregate<CAtomicImage_RENAME, Double>( 
+                0, 
+                ( current, image ) => current + image.GetPixelData().Cast<Int16>().Sum( x => x ) );
+            
+            return new NumProperty(_volumeOneHeader.Name, result.ToString( CultureInfo.InvariantCulture ));
+        }
+
+        private NumProperty GetSeriesVol2( CAtomicImageSeries series )
+        {
+            Double result = series.Images.Aggregate<CAtomicImage_RENAME, Double>( 
+                0, 
+                ( current, image ) => current + image.GetPixelData().Cast<Int16>().Sum( x => x + 1) );
+
+            return new NumProperty(_volumeTwoHeader.Name, result.ToString( CultureInfo.InvariantCulture ));
         }
 
         public void SetInput( IDataSource source )

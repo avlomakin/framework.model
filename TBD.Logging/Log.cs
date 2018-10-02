@@ -43,7 +43,8 @@ namespace TBD.Logging
             String dateTime = '[' + DateTime.Now.ToString( "MM/dd/yyyy hh:mm:ss.fff tt" ) + ']';
             String logLevelString = GetLogLevelAsString( logLevel );
             foreach (String line in lines)
-                _logWriter.Write( $"{dateTime}:   {logLevelString}  {line}" );
+                _logWriter.WriteLine( $"{dateTime}:   {logLevelString}  {line}" );
+            _logWriter.Flush();
         }
 
         private static String GetLogLevelAsString( ELogLevel logLevel )

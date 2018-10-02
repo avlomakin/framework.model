@@ -12,7 +12,7 @@ namespace TBD.Model
 
         public IReadOnlyCollection<CAtomicImage_RENAME> Images => _images;
 
-        private CAtomicImageSeries( CSeriesInfo info, IEnumerable<CAtomicImage_RENAME> images )
+        public CAtomicImageSeries( CSeriesInfo info, IEnumerable<CAtomicImage_RENAME> images )
         {
             Info = info;
             _images = images.ToList();

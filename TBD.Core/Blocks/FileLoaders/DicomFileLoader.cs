@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using TBD.Logging;
 using TBD.Model;
 
@@ -12,10 +13,11 @@ namespace TBD.Core
             throw new NotImplementedException();
         }
 
-        public IDataSource GetDataSource( Object options )
+        public IDataSource GetDataSource( CDataSourceOptions options )
         {
+            //(avlomakin) dummy loader for now
 
-            //Empty for now
+           
             List<CAtomicImage_RENAME> dummyLoad =
                 new List<CAtomicImage_RENAME>
                 {
@@ -26,7 +28,10 @@ namespace TBD.Core
                     SDummyAtomicPictGenerator.GeneratePict()
                 };
 
-            return new CAtomicPicts( dummyLoad );
+            CAtomicImageSeries dummySeries = new CAtomicImageSeries(
+                CSeriesInfo.CreateFromFileInfo( new FileInfo( "C:\\src\\Test\\dummy.dicom" ) ), dummyLoad );
+
+            return new CAtomicPicts( new[] { dummySeries } );
         }
 
         public void SetInput( IDataSource source )

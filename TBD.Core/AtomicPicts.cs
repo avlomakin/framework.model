@@ -8,6 +8,10 @@ using TBD.Model;
 
 namespace TBD.Core
 { 
+
+    /// <summary>
+    /// TODO: (avlomakin) implement IEnumerable
+    /// </summary>
     public class CAtomicPicts : IDataSource
     {
         private readonly HashSet<CAtomicImageSeries> _seriesSet = new HashSet<CAtomicImageSeries>(new CImageSeriresGuidComparer());
@@ -26,6 +30,9 @@ namespace TBD.Core
         {
             if (typeof(T) == typeof(CAtomicPicts))
                 return (T) (Object) ( this );
+
+            if (typeof(T) == typeof(List<CAtomicImageSeries>))
+                return (T) (Object) ( _seriesSet.ToList() );
 
             return null;
         }

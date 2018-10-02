@@ -10,6 +10,7 @@ namespace TBD.Model
         public readonly Guid Id;
 
         private String _humanReadableName;
+
         public  String HumanReadableName
         {
             get
@@ -19,6 +20,7 @@ namespace TBD.Model
 
                 return _humanReadableName;
             }
+            set => _humanReadableName = value;
         }
 
         public CSeriesInfo( String folder, String extension, Guid id )

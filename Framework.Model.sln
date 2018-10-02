@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2003
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TBD.Core", "TBD.Core\TBD.Core.csproj", "{295DD122-B17A-4C96-9FDB-A61FC132F52B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TBD.Core", "TBD.Core\TBD.Core.csproj", "{295DD122-B17A-4C96-9FDB-A61FC132F52B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TBD.Model", "TBD.Model\TBD.Model.csproj", "{E8766395-50E8-4F19-95EF-BFA0FCC97018}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TBD.Model", "TBD.Model\TBD.Model.csproj", "{E8766395-50E8-4F19-95EF-BFA0FCC97018}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TBD.ConsoleReporter", "TBD.ConsoleReporter\TBD.ConsoleReporter.csproj", "{A3FFD706-6C33-4394-BF1E-6DC6CC955212}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TBD.ConsoleReporter", "TBD.ConsoleReporter\TBD.ConsoleReporter.csproj", "{A3FFD706-6C33-4394-BF1E-6DC6CC955212}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TBD.Logging", "TBD.Logging\TBD.Logging.csproj", "{8F9A37CF-7EC6-46AB-AF09-52B8BCB90617}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TBD.Logging", "TBD.Logging\TBD.Logging.csproj", "{8F9A37CF-7EC6-46AB-AF09-52B8BCB90617}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

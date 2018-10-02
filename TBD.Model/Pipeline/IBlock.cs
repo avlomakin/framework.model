@@ -6,7 +6,7 @@ namespace TBD.Model
     {
         CDataSourceOptions GetDataSourceOptions();
 
-        IDataSource GetDataSource(Object options);
+        IDataSource GetDataSource(CDataSourceOptions options);
 
         void SetInput( IDataSource source );
     }

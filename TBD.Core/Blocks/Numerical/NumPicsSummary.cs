@@ -12,7 +12,7 @@ namespace TBD.Core
 
         private readonly DataTable _mainTable;
 
-        private readonly Dictionary<CSeriesInfo, List<CNumProperty>> _summary = new Dictionary<CSeriesInfo, List<CNumProperty>>();
+        private readonly Dictionary<CSeriesInfo, List<NumProperty>> _summary = new Dictionary<CSeriesInfo, List<NumProperty>>();
 
         private DataTable _dataTableCache;
 
@@ -87,17 +87,21 @@ namespace TBD.Core
 
                 dataRow[ SeriesNameHeaderName ] = summary.Key.HumanReadableName;
 
-
                 //TODO: (avlomakin) handle if no column for prop 
-                foreach (CNumProperty property in summary.Value)
+                foreach (NumProperty property in summary.Value)
                     dataRow[ property.Name ] = property.Value;
+
+                _mainTable.Rows.Add( dataRow );
             }
+
+            //TODO: (avlomakin) redo to lazy generation
+            _dataTableCache = _mainTable;
         }
 
 
-        public void AddPropertyForSeries( CSeriesInfo info, CNumProperty value )
+        public void AddPropertyForSeries( CSeriesInfo info, NumProperty value )
         {
-            List<CNumProperty> props = _summary.GetOrCreate( info, () => new List<CNumProperty>() );
+            List<NumProperty> props = _summary.GetOrCreate( info, () => new List<NumProperty>() );
             props.Add( value );
         }
     }
@@ -114,15 +118,15 @@ namespace TBD.Core
         public String Name { get;  }
     }
 
-    public struct CNumProperty
+    public struct NumProperty
     {
-        public CNumProperty( DataColumn name, String value )
+        public NumProperty( String name, String value )
         {
-            Name = name;
+            Name = name ;
             Value = value;
         }
 
-        public DataColumn Name { get;  }
+        public String Name { get;  }
         
         //TODO: check if prop are numerical
         public String Value { get;  }
