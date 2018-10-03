@@ -17,7 +17,14 @@ namespace TBD.ConsoleReporter
             
             CSequentialPipeline pipeline = new CSequentialPipeline();
 
-            pipeline.AppendInPipeline( new CDicomFileLoader() );
+            var fileLoader = new CDicomFileLoader();
+            var table = fileLoader.GetDataSource( CFileLoaderDataSourceOptions.CreateCommonReportOptions() ).TryGetAs<DataTable>();
+
+            String userFriendlyFileReport = SDataTablePrinter.GetPrettyDataTable( table );
+
+            Console.WriteLine(userFriendlyFileReport);
+
+            pipeline.AppendInPipeline( fileLoader );
 
             pipeline.AppendInPipeline( new CImageSeriesVolumeCalculator() );
 

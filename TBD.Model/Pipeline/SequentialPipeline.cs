@@ -26,7 +26,7 @@ namespace TBD.Model
             switch (manageType)
             {
                 case EPipelineBlockManageType.ByBlock:
-                    Log.Message( $"[CSequentialPipeline] Append block {block.Name}, managed mode: by Block" );
+                    Log.Message( $"[SequentialPipeline] Append block {block.Name}, managed mode: by Block" );
                     _blocks.Add( block );
                     break;
                 case EPipelineBlockManageType.ByPipeline:
@@ -44,12 +44,12 @@ namespace TBD.Model
             {
                 IDataSource dataSource = _blocks.Last().GetDataSource( block.GetDataSourceOptions() );
                 Log.Message(
-                    $"[CSequentialPipeline] Append block {block.Name}, managed mode: by Pipeline, data source type: {dataSource.GetType().Name}" );
+                    $"[SequentialPipeline] Append block {block.Name}, managed mode: by Pipeline, data source type: {dataSource.GetType().Name}" );
                 block.SetInput( _blocks.Last().GetDataSource( block.GetDataSourceOptions() ) );
             }
             else
                 Log.Message(
-                    $"[CSequentialPipeline] Append block {block.Name}, managed mode: by Pipeline, data source type: undefined (first element in pipeline)" );
+                    $"[SequentialPipeline] Append block {block.Name}, managed mode: by Pipeline, data source type: undefined (first element in pipeline)" );
         }
 
         public IDataSource GetPipelineResult()
@@ -59,6 +59,9 @@ namespace TBD.Model
                 Log.Message( "[SequentialPipeline] no elements in pipeline" );
                 return null;
             }
+
+            String flow = GetPipelineFlowModelLog();
+            Log.Message( $"[SequentialPipeline] Initiating pipeline result calculation, flow model: {flow}" );
 
             return _blocks.Last().GetDataSource( _pipelineOptions );
         }
@@ -72,6 +75,11 @@ namespace TBD.Model
             }
 
             return _blocks.Last().GetDataSource( options );
+        }
+
+        private String GetPipelineFlowModelLog()
+        {
+            return String.Join( " -> ", _blocks.Select( x => x.Name ) );
         }
     }
 }

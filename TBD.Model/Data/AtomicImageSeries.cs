@@ -34,5 +34,10 @@ namespace TBD.Model
             info = CSeriesInfo.CreateFromFileInfo( images.First().FileInfo );
             return true;
         }
+
+        public void SetCaption( String caption )
+        {
+            Info.HumanReadableName = caption;
+        }
     }
 }

@@ -21,6 +21,8 @@ namespace TBD.Logging
         {
             FileStream logFile = new FileStream( "C:\\src\\test.log", FileMode.Append );
             _logWriter = new StreamWriter( logFile );
+            _logWriter.WriteLine( $"\n \n" );
+            _logWriter.Flush();
         }
 
         public static void Message( String message)
@@ -40,7 +42,7 @@ namespace TBD.Logging
                 throw new Exception( "Log was not initalized" );
 
             String[] lines = message.Split( "\n" );
-            String dateTime = '[' + DateTime.Now.ToString( "MM/dd/yyyy HH:mm:ss.fff" ) + ']';
+            String dateTime = '[' + DateTime.Now.ToString( "dd/MM/yyyy HH:mm:ss.fff" ) + ']';
             String logLevelString = GetLogLevelAsString( logLevel );
             foreach (String line in lines)
                 _logWriter.WriteLine( $"{dateTime}:  {logLevelString}   {line}" );

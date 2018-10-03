@@ -38,7 +38,7 @@ namespace TBD.Core
 
         private IDataSource GetFromAtomicPics( CAtomicPicts pics )
         {
-            Log.Message( "[VolumeCalculator] Initalize summary creation" );
+            Log.Message( "[VolumeCalculator] Generating summary" );
 
             CNumSeriesPropertySummary summary = InitalizeSummmary();
 

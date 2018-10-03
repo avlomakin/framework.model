@@ -15,8 +15,35 @@ namespace TBD.Core
 
         public IDataSource GetDataSource( CDataSourceOptions options )
         {
-            //(avlomakin) dummy loader for now
-            
+            if (options is CFileLoaderDataSourceOptions fileOptions)
+                return ManageFileSLoaderOptions(fileOptions);
+            else
+                return ManageCommonOptions(options);
+        }
+
+        private IDataSource ManageFileSLoaderOptions( CFileLoaderDataSourceOptions fileOptions )
+        {
+            Log.Message( $"[DicomFileLoader] Received managed options. Is report required : {fileOptions.IsReport}, preferable type {fileOptions.PreferableType.Name} ");
+
+            CAtomicPicts dummyPicts = GenerateDummyLoadedFiles();
+
+            if(fileOptions.IsReport)
+                return CFileLoadFilesReport.CreateFromAtomicPicts(dummyPicts);
+
+            return GenerateDummyLoadedFiles();
+        }
+
+        private static IDataSource ManageCommonOptions(CDataSourceOptions options)
+        {
+            Log.Message( $"[DicomFileLoader] Received common options, preferable type {options.PreferableType.Name}" );
+
+            return GenerateDummyLoadedFiles();
+        }
+
+        private static CAtomicPicts GenerateDummyLoadedFiles()
+        {
+            Log.Message( "[DicomFileLoader] creating Atomic pics" );
+
             List<CAtomicImage_RENAME> dummyLoad =
                 new List<CAtomicImage_RENAME>
                 {
@@ -28,9 +55,11 @@ namespace TBD.Core
                 };
 
             CAtomicImageSeries dummySeries = new CAtomicImageSeries(
-                CSeriesInfo.CreateFromFileInfo( new FileInfo( "C:\\src\\Test\\dummy.dicom" ) ), dummyLoad );
+                CSeriesInfo.CreateFromFileInfo(new FileInfo("C:\\src\\Test\\dummy.dicom")), dummyLoad);
 
-            return new CAtomicPicts( new[] { dummySeries } );
+            dummySeries.SetCaption( "Test series" );
+
+            return new CAtomicPicts(new[] { dummySeries });
         }
 
         public void SetInput( IDataSource source )

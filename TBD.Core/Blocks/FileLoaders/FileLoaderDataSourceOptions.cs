@@ -16,7 +16,7 @@ namespace TBD.Core
             IsReport = isReport;
         }
 
-        public static CFileLoaderDataSourceOptions CreateReportOptions()
+        public static CFileLoaderDataSourceOptions CreateCommonReportOptions()
         {
             return new CFileLoaderDataSourceOptions( typeof(CFileLoadFilesReport), null, true );
         }
