@@ -16,7 +16,7 @@ namespace TBD.Model
 
     public class CSequentialPipeline
     {
-        private List<IBlock> _blocks = new List<IBlock>();
+        public List<IBlock> Blocks = new List<IBlock>();
 
         private readonly CDataSourceOptions _pipelineOptions = new CDataSourceOptions( typeof(Object) );
 
@@ -27,11 +27,11 @@ namespace TBD.Model
             {
                 case EPipelineBlockManageType.ByBlock:
                     Log.Message( $"[SequentialPipeline] Append block {block.Name}, managed mode: by Block" );
-                    _blocks.Add( block );
+                    Blocks.Add( block );
                     break;
                 case EPipelineBlockManageType.ByPipeline:
                     AddManagedByPipelineBlock( block );
-                    _blocks.Add( block );
+                    Blocks.Add( block );
                     break;
                 default:
                     throw new ArgumentOutOfRangeException( nameof(manageType), manageType, null );
@@ -40,12 +40,12 @@ namespace TBD.Model
 
         private void AddManagedByPipelineBlock( IBlock block )
         {
-            if (_blocks.Any())
+            if (Blocks.Any())
             {
-                IDataSource dataSource = _blocks.Last().GetDataSource( block.GetDataSourceOptions() );
+                IDataSource dataSource = Blocks.Last().GetDataSource( block.GetDataSourceOptions() );
                 Log.Message(
                     $"[SequentialPipeline] Append block {block.Name}, managed mode: by Pipeline, data source type: {dataSource.GetType().Name}" );
-                block.SetInput( _blocks.Last().GetDataSource( block.GetDataSourceOptions() ) );
+                block.SetInput( Blocks.Last().GetDataSource( block.GetDataSourceOptions() ) );
             }
             else
                 Log.Message(
@@ -54,7 +54,7 @@ namespace TBD.Model
 
         public IDataSource GetPipelineResult()
         {
-            if (!_blocks.Any())
+            if (!Blocks.Any())
             {
                 Log.Message( "[SequentialPipeline] no elements in pipeline" );
                 return null;
@@ -63,23 +63,23 @@ namespace TBD.Model
             String flow = GetPipelineFlowModelLog();
             Log.Message( $"[SequentialPipeline] Initiating pipeline result calculation, flow model: {flow}" );
 
-            return _blocks.Last().GetDataSource( _pipelineOptions );
+            return Blocks.Last().GetDataSource( _pipelineOptions );
         }
 
         public IDataSource GetPipelineResult( CDataSourceOptions options )
         {
-            if (!_blocks.Any())
+            if (!Blocks.Any())
             {
                 Log.Message( "[SequentialPipeline] no elements in pipeline" );
                 return null;
             }
 
-            return _blocks.Last().GetDataSource( options );
+            return Blocks.Last().GetDataSource( options );
         }
 
         private String GetPipelineFlowModelLog()
         {
-            return String.Join( " -> ", _blocks.Select( x => x.Name ) );
+            return String.Join( " -> ", Blocks.Select( x => x.Name ) );
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using TBD.Logging;
 using TBD.Model;
@@ -30,14 +31,19 @@ namespace TBD.Core
             if(fileOptions.IsReport)
                 return CFileLoadFilesReport.CreateFromAtomicPicts(dummyPicts);
 
-            return GenerateDummyLoadedFiles();
+            return dummyPicts;
         }
 
         private static IDataSource ManageCommonOptions(CDataSourceOptions options)
         {
             Log.Message( $"[DicomFileLoader] Received common options, preferable type {options.PreferableType.Name}" );
 
-            return GenerateDummyLoadedFiles();
+            CAtomicPicts dummyPicts = GenerateDummyLoadedFiles();
+
+            if(options.PreferableType == typeof(DataTable))
+                return CFileLoadFilesReport.CreateFromAtomicPicts(dummyPicts);
+
+            return dummyPicts;
         }
 
         private static CAtomicPicts GenerateDummyLoadedFiles()
